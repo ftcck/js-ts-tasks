@@ -14,5 +14,25 @@
  * @returns {function}
  */
 module.exports.censorship = function censorship(forbidden) {
-  throw new Error('Not implemented'); // remove me and write a solution
+  function censorship1(text) {
+    {
+      let result = text; // 1. Инициализация переменной result исходным текстом
+
+      let indexToSearchFrom;
+      for (const banword of forbidden) {
+        // 2. Цикл по всем запрещенным словам
+
+        let indexOfBanword = result.indexOf(banword); // 3. Поиск первого вхождения banword в result
+        while (indexOfBanword !== -1) {
+          // 4. Цикл while выполняется, пока banword находится в result (index не равен -1)
+          const starReplacement = '*'.repeat(banword.length); // 5. Создание строки замены из символов '*'
+          result = result.substring(0, indexOfBanword) + starReplacement + result.substring(indexOfBanword + banword.length); // 6. Замена banword на replacement
+          indexToSearchFrom = indexOfBanword + starReplacement.length;
+          indexOfBanword = result.indexOf(banword, indexToSearchFrom); // 7. Поиск следующего вхождения banword, начиная с позиции после замены
+        }
+      }
+      return result;
+    }
+  }
+  return censorship1;
 };
